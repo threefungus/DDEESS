@@ -14,13 +14,15 @@ int main(void){
     }
     printf("\nInput taken as:\t%s",input);
 
+    //printf("Plaintext:\t%s\t\t", input);
+
     size_t length = strlen(input);
     int64_t right_half = 0;
     int64_t left_half = 0;
     int64_t i, mask;
     for(i = 0;i < length; i++){
         if(input[i] == 0x0a)
-            break;
+            input[i] =0;
         mask = input[i];
         if(i <= 7){
             left_half |= mask << (56 - i*8);
@@ -29,7 +31,14 @@ int main(void){
         }
     }
 
-    printf("\nInput as Hex is:\t%lx%lx\n\n",left_half, right_half);
+    for(i = 0;i < 16; i++){
+        if(input[i] == 0x00)
+            input[i] =0x5F;
+    }
+    printf("Plaintext:\t%s\t\t", input);
+
+    //printf("\nInput as Hex is:\t%lx%lx\n\n",left_half, right_half);
+    // secret key is "big chungus 4/!7"
     int64_t secret_key1 = 0x626967206368756E;
     int64_t secret_key2 = 0x67757320342F2137;
     int64_t round_Keys[32] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32};
@@ -71,7 +80,7 @@ int main(void){
         // }
     }
 
-    printf("\nEncrypted Output as Hex is:\t%lx %lx\n\n",left_half, right_half);
+    //printf("\nEncrypted Output as Hex is:\t%lx %lx\n\n",left_half, right_half);
 
     for(i = 0;i < length; i++){
         if(i <= 7){
@@ -83,8 +92,14 @@ int main(void){
         }
     }
 
-    printf("\nOutput given as:\t%s\n",output);
-    printf("\nOutput given as:\t%d\n",output[0]);
+    // printf("\nOutput given as:\t%s\n",output);
+    // printf("\nOutput given as:\t%d\n",output[0]);
+
+    for(i = 0;i < 16; i++){
+        if(output[i] == 0x00)
+            output[i] =0x5F;
+    }
+    printf("Ciphertext:\t%s\n", output);
 
     //Swap left and right to start decryption
     new_left_half = swapHalves(right_half);
@@ -140,7 +155,7 @@ int main(void){
     right_half = new_left_half;
     
 
-    printf("\nDecrypted Output as Hex is:\t%lx%lx\n\n",left_half, right_half);
+    //printf("\nDecrypted Output as Hex is:\t%lx%lx\n\n",left_half, right_half);
 
     for(i = 0;i < length; i++){
         if(i <= 7){
@@ -152,6 +167,6 @@ int main(void){
         }
     }
 
-    printf("\nOutput given as:\t%s\n",output);
-    printf("\nOutput given as:\t%d\n",output[0]);
+    // printf("\nOutput given as:\t%s\n",output);
+    // printf("\nOutput given as:\t%d\n",output[0]);
 }
