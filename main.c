@@ -5,13 +5,14 @@
 #include "KeySchedule.h"
 
 int main(void){
-    char input[16], output[16];
+    char input[17], output[17];
     size_t size = 16;
 
     printf("Please enter plaintext to encrypt:\n");
     while (fgets(input, size, stdin) == NULL){
         printf("ERROR - no input seen.  Try again!\n");
     }
+    input[16] = 0;
     printf("\nInput taken as:\t%s",input);
 
     //printf("Plaintext:\t%s\t\t", input);
@@ -31,10 +32,11 @@ int main(void){
         }
     }
 
-    for(i = 0;i < 16; i++){
+    for(i = 0;i < 17; i++){
         if(input[i] == 0x00)
             input[i] =0x5F;
     }
+    input[16] = 0;
     printf("Plaintext:\t%s\t\t", input);
 
     //printf("\nInput as Hex is:\t%lx%lx\n\n",left_half, right_half);
